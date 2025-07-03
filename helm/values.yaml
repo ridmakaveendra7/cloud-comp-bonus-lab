@@ -7,7 +7,7 @@ mysql:
   storage: 1Gi
 
 backend:
-  image: aishwaryaravi456/hand2hand:backend-latest
+  image: ridma95/hand2hand:backend-latest
   port: 8000
   superuser:
     name: admin
@@ -15,7 +15,7 @@ backend:
   deeplApiKey: ebaef170-80f4-4787-a1fe-88363d94fb8c:fx
 
 frontend:
-  image: aishwaryaravi456/hand2hand:frontend-latest
+  image: ridma95/hand2hand:frontend-latest
   port: 80
 
 phpmyadmin:
