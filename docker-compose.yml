@@ -1,0 +1,68 @@
+services:
+
+  db:
+    image: mysql:8.0
+    container_name: mysql
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_DATABASE: mydb
+      MYSQL_USER: user
+      MYSQL_PASSWORD: userpass
+      MYSQL_ROOT_PASSWORD: rootpass
+    volumes:
+      - mysql_data:/var/lib/mysql
+  
+  backend:
+    container_name: backend
+    image: backend 
+    build:
+      context: ./apps
+      dockerfile: Dockerfile.backend.dev
+    ports:
+      - 8000:8000
+    environment:
+      -  DJANGO_SETTINGS_MODULE=backend.settings
+      - DJANGO_SUPERUSER_NAME=admin
+      - DJANGO_SUPERUSER_PASSWORD=password
+      - DEBUG=True
+      - DB_HOST=db
+      - DB_PORT=3306
+      - DB_NAME=mydb
+      - DB_USER=user
+      - DB_PASSWORD=userpass
+      - DEEPL_API_KEY=ebaef170-80f4-4787-a1fe-88363d94fb8c:fx
+    volumes:
+      - ./apps/backend:/app/backend         
+    depends_on:
+      - db
+
+  frontend:
+    image: frontend
+    container_name: frontend
+    build:
+      context: ./apps
+      dockerfile: Dockerfile.frontend.dev
+    ports:
+      - 3000:3000
+    volumes:
+      - ./apps/frontend:/app
+      - /app/node_modules   # prevent node_modules overwrite by host
+    environment:
+      - CHOKIDAR_USEPOLLING=true   # enable file watching in Docker
+
+
+  phpmyadmin:
+    container_name: phpmyadmin
+    image: phpmyadmin/phpmyadmin
+    ports:
+      - 8080:80
+    environment:
+      PMA_HOST: mysql
+      PMA_PORT: 3306
+    depends_on:
+      - db
+
+volumes:
+  mysql_data:
+  frontend_node_modules:
