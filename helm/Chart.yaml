@@ -1,0 +1,5 @@
+apiVersion: v2
+name: hand2hand
+description: Helm chart for hand2hand full stack app
+version: 0.1.0
+appVersion: "1.0"
