@@ -1,0 +1,28 @@
+Thank you for installing {{ .Chart.Name }}.
+
+Your release is named {{ .Release.Name }}.
+
+To learn more about the release, try:
+
+  $ kubectl get pods -l "app.kubernetes.io/instance={{ .Release.Name }}"
+  $ kubectl get services -l "app.kubernetes.io/instance={{ .Release.Name }}"
+
+You can access the application using:
+
+  Frontend: http://<node-ip>:30080
+
+{{- if .Values.ingress.enabled }}
+The application is accessible via Ingress at:
+  http://{{ .Values.ingress.host }}
+{{- end }}
+
+Database connection details:
+  Host: mysql
+  Port: 3306
+  Database: {{ .Values.mysql.database }}
+  User: {{ .Values.mysql.user }}
+
+Backend API is available at:
+  http://backend:{{ .Values.backend.port }}
+
+For more information, visit: https://github.com/your-repo/hand2hand 

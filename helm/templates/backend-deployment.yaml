@@ -3,7 +3,6 @@ kind: Deployment
 metadata:
   name: backend
 spec:
-  replicas: 1
   selector:
     matchLabels:
       app: backend
@@ -15,35 +14,58 @@ spec:
       containers:
         - name: backend
           image: {{ .Values.backend.image }}
+          imagePullPolicy: Always
           ports:
             - containerPort: {{ .Values.backend.port }}
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "250m"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
+          livenessProbe:
+            httpGet:
+              path: /admin/
+              port: {{ .Values.backend.port }}
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /admin/
+              port: {{ .Values.backend.port }}
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          envFrom:
+            - configMapRef:
+                name: hand2hand-config
           env:
             - name: DJANGO_SUPERUSER_NAME
               value: {{ .Values.backend.superuser.name }}
             - name: DJANGO_SUPERUSER_PASSWORD
-              value: {{ .Values.backend.superuser.password }}
-            - name: DEBUG
-              value: "False"
-            - name: DB_HOST
-              value: mysql
-            - name: DB_PORT
-              value: "3306"
-            - name: DB_NAME
-              value: {{ .Values.mysql.database }}
-            - name: DB_USER
-              value: {{ .Values.mysql.user }}
+              valueFrom:
+                secretKeyRef:
+                  name: hand2hand-secret
+                  key: DJANGO_SUPERUSER_PASSWORD
             - name: DB_PASSWORD
-              value: {{ .Values.mysql.password }}
+              valueFrom:
+                secretKeyRef:
+                  name: hand2hand-secret
+                  key: DB_PASSWORD
             - name: DEEPL_API_KEY
-              value: {{ .Values.backend.deeplApiKey }}
+              valueFrom:
+                secretKeyRef:
+                  name: hand2hand-secret
+                  key: DEEPL_API_KEY
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: backend
 spec:
+  type: {{ .Values.backend.service.type }}
   selector:
     app: backend
   ports:
-    - port: {{ .Values.backend.port }}
+    - port: {{ .Values.backend.service.port }}
       targetPort: {{ .Values.backend.port }}
