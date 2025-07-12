@@ -10,4 +10,5 @@ data:
   DB_NAME: "{{ .Values.mysql.database }}"
   DB_USER: "{{ .Values.mysql.user }}"
   NODE_ENV: "production"
-  VITE_API_BASE_URL: "http://135.237.53.26/api" 
+  VITE_API_BASE_URL: "http://20.246.189.54/api"
+  SKIP_FIXTURES: "false"

@@ -26,16 +26,16 @@ spec:
               cpu: "500m"
           livenessProbe:
             httpGet:
-              path: /admin/
+              path: /admin
               port: {{ .Values.backend.port }}
-            initialDelaySeconds: 30
-            periodSeconds: 10
+            initialDelaySeconds: 60
+            periodSeconds: 30
           readinessProbe:
             httpGet:
-              path: /admin/
+              path: /admin
               port: {{ .Values.backend.port }}
-            initialDelaySeconds: 5
-            periodSeconds: 5
+            initialDelaySeconds: 60
+            periodSeconds: 60
           envFrom:
             - configMapRef:
                 name: hand2hand-config
