@@ -15,6 +15,7 @@ spec:
       containers:
         - name: mysql
           image: {{ .Values.mysql.image }}
+          imagePullPolicy: Always
           env:
             - name: MYSQL_ROOT_PASSWORD
               value: {{ .Values.mysql.rootPassword }}
@@ -26,6 +27,23 @@ spec:
               value: {{ .Values.mysql.password }}
           ports:
             - containerPort: 3306
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "100m"
+            limits:
+              memory: "512Mi"
+              cpu: "200m"
+          livenessProbe:
+            tcpSocket:
+              port: 3306
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          readinessProbe:
+            tcpSocket:
+              port: 3306
+            initialDelaySeconds: 5
+            periodSeconds: 5
           volumeMounts:
             - name: mysql-data
               mountPath: /var/lib/mysql
@@ -43,4 +61,4 @@ spec:
     app: mysql
   ports:
     - port: 3306
-      targetPort: 3306
+      targetPort: 3306 

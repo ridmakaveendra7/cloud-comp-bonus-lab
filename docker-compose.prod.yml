@@ -17,7 +17,7 @@ services:
     build:
       context: ./apps
       dockerfile: Dockerfile.backend.dev
-    image: aishwaryaravi456/hand2hand:backend-latest 
+    image: ridma95/hand2hand:backend-latest 
     container_name: backend
     ports:
       - 8000:8000
@@ -38,23 +38,12 @@ services:
     build:
       context: ./apps
       dockerfile: Dockerfile.frontend.prod
-    image: aishwaryaravi456/hand2hand:frontend-latest 
+    image: ridma95/hand2hand:frontend-latest 
     container_name: frontend
     ports:
       - 80:80
     environment:
       - NODE_ENV=production
-
-  phpmyadmin:
-    container_name: phpmyadmin
-    image: phpmyadmin/phpmyadmin
-    ports:
-      - 8080:80
-    environment:
-      PMA_HOST: mysql
-      PMA_PORT: 3306
-    depends_on:
-      - db
 
 volumes:
   mysql_data:
