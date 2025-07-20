@@ -1,6 +1,22 @@
 # Hand2Hand Kubernetes Cluster Setup Guide
 
-This guide provides step-by-step instructions to create a cost-optimized Azure Kubernetes Service (AKS) cluster for the Hand2Hand application deployment.
+This guide provides step-by-step instructions to create a Azure Kubernetes Service (AKS) cluster for
+ the Hand2Hand application deployment.
+ 
+ Hand2Hand is a E-Commerce application that has been developed by us for a Project in Global
+ Distributed Software Development modulle.
+ 
+ Application is developed using Python Django framework and and React Vite and MySql DB.
+ Application also uses Amazon S3 bucket internally.
+ 
+ For this Bonus assignment we are using helm to deploy this application as a scalable app.
+ Weareusing azure aks to deploy this application. We are using kubernetes HPA for auto scaling the
+ pods of backend and frontend deployment. We have also added a nginx-ingress controller to route
+ the incoming traffic to the pods.
+
+
+**Below is a deployment guideline. There is also `deploy.sh` script which includes all below commands and can automate cluster creation and helm deployment.
+`cleanup.sh` can be used to delete the whole cluster after creating and testing.** 
 
 ## Prerequisites
 
@@ -8,7 +24,23 @@ This guide provides step-by-step instructions to create a cost-optimized Azure K
 - kubectl installed
 - Helm installed
 - Docker installed (for building images)
+- Azure login
+- Docker login
 
+# Automated deployment and cleanup using the deploy and cleanup scripts
+
+```bash
+# Deploy 
+chmod +x deploy.sh
+./deploy.sh
+
+# Cleanup
+chmod +x cleanup.sh
+./cleanup.sh
+```
+
+
+# Manual Deployment
 ## 1. Create Resource Group
 
 ```bash
