@@ -3,7 +3,7 @@
 This guide provides step-by-step instructions to create a Azure Kubernetes Service (AKS) cluster for
  the Hand2Hand application deployment.
  
- Hand2Hand is a E-Commerce application that has been developed by us for a Project in Global
+ Hand2Hand is a E-Commerce application that has been developed for a Project in Global
  Distributed Software Development modulle.
  
  Application is developed using Python Django framework and and React Vite and MySql DB.
